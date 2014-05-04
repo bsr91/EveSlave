@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class LogParser {
+public class LogParser{
 
 	private boolean stop;
 	private Settings settings;
@@ -25,6 +25,7 @@ public class LogParser {
 			System.out.println("Log file not found");
 			
 		}else if(settings.getUserArray()!=null){
+			stop=false;
 			try {
 				System.out.println("Reading file: "+log.getName());
 				BufferedReader f_in=new BufferedReader(new InputStreamReader(new FileInputStream(log),"UTF-16"));
@@ -51,7 +52,7 @@ public class LogParser {
 							//filters other peoples messages and ensures message is bot command
 							//then tells EventManager to fire an event
 							if(isValidPrefix(pre)&&msg.startsWith("!")){
-								em.fireEvent(msg);
+								em.fireChatEvent(msg);
 							}
 						}
 					}
@@ -94,4 +95,6 @@ public class LogParser {
 	public void stopParse(){
 		stop=true;
 	}
+
+
 }

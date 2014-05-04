@@ -1,5 +1,6 @@
 package listeners;
 
+import root.EventManager;
 import root.FileManager;
 
 public class SettingsListener extends ChatListener {
@@ -10,7 +11,7 @@ public class SettingsListener extends ChatListener {
 	}
 
 	@Override
-	public void respond(String msg, String cmd) {
+	public void respond(String msg, String cmd,EventManager em) {
 		//adds user to settings array
 		if(cmd.equalsIgnoreCase("!addUser")){
 			fm.getSettings().addUser(msg);
@@ -27,7 +28,18 @@ public class SettingsListener extends ChatListener {
 				}
 			}
 		}
+		//sets the channel to parse from
+		//dont set this to a channel you arent in 
+		if(cmd.equalsIgnoreCase("!setChannel")){
+			fm.getSettings().setChannelname(msg);
+			fm.saveSettings();
+			em.fireInternalEvent(new InternalEvent(InternalEvent.RELOAD_LOG_FILE));
+			return;
+		}
 
 	}
+	
+	
+	public void respond(InternalEvent x){/*na*/}
 
 }
