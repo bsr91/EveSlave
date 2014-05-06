@@ -11,7 +11,7 @@ public class SettingsListener extends ChatListener {
 	}
 
 	@Override
-	public void respond(String msg, String cmd,EventManager em) {
+	public void respond(String msg, String cmd) {
 		//adds user to settings array
 		if(cmd.equalsIgnoreCase("!addUser")){
 			fm.getSettings().addUser(msg);
@@ -33,7 +33,7 @@ public class SettingsListener extends ChatListener {
 		if(cmd.equalsIgnoreCase("!setChannel")){
 			fm.getSettings().setChannelname(msg);
 			fm.saveSettings();
-			em.fireInternalEvent(new InternalEvent(InternalEvent.RELOAD_LOG_FILE));
+			EventManager.fireInternalEvent(new InternalEvent(InternalEvent.RELOAD_LOG_FILE));
 			return;
 		}
 

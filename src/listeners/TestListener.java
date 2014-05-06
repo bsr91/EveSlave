@@ -1,7 +1,5 @@
 package listeners;
 
-import root.EventManager;
-
 
 public class TestListener extends ChatListener{
 
@@ -10,7 +8,7 @@ public class TestListener extends ChatListener{
 	}
 
 	@Override
-	public void respond(String msg, String cmd,EventManager em) {
+	public void respond(String msg, String cmd) {
 		System.out.println(msg);
 
 	}	

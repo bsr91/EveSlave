@@ -9,10 +9,10 @@ import listeners.ChatListener;
 import listeners.InternalEvent;
 
 public class EventManager {
-	private ArrayList<ChatListener> allChatListeners;
-	private ArrayList<Listenable> allInternalListeners;
+	private static ArrayList<ChatListener> allChatListeners;
+	private static ArrayList<Listenable> allInternalListeners;
 	
-	public EventManager(){
+	public static void acceptListeners(){
 		allChatListeners=new ArrayList<ChatListener>();
 		allInternalListeners=new ArrayList<Listenable>();
 	}
@@ -20,7 +20,7 @@ public class EventManager {
 	/*
 	 * fires respond() in the listeners registered for the command from chat
 	 */
-	public void fireChatEvent(String msg){
+	public static void fireChatEvent(String msg){
 		String cmd;
 		try{
 			cmd=msg.split(" ")[0];
@@ -32,7 +32,7 @@ public class EventManager {
 			for(String ac:l.getCommands()){
 				if(ac.equalsIgnoreCase(cmd)){
 					String relevant=msg.replace(cmd, "").trim();
-					l.respond(relevant,ac,this);
+					l.respond(relevant,ac);
 					break;
 				}
 			}
@@ -43,7 +43,7 @@ public class EventManager {
 	/*
 	 * fires respond() in internal listeners
 	 */
-	public void fireInternalEvent(InternalEvent x){
+	public static void fireInternalEvent(InternalEvent x){
 		for(Listenable i:allInternalListeners){
 			i.respond(x);
 		}
@@ -52,13 +52,13 @@ public class EventManager {
 	/*
 	 * registers an extension of ChatListener to the ArrayList
 	 */
-	public void addChatListener(ChatListener cl){
+	public static void addChatListener(ChatListener cl){
 		allChatListeners.add(cl);
 	}
 	/*
 	 * removes a listener from this manager
 	 */
-	public void removeChatListener(ChatListener cl){
+	public static void removeChatListener(ChatListener cl){
 		for(ChatListener x:allChatListeners){
 			if(x.equals(cl)){
 				allChatListeners.remove(x);
@@ -69,13 +69,13 @@ public class EventManager {
 	/*
 	 * registers and extension of InternalListener to the ArrayList
 	 */
-	public void addInternalListener(Listenable i){
+	public static void addInternalListener(Listenable i){
 		allInternalListeners.add(i);
 	}
 	/*
 	 * removes a listener from this manager
 	 */
-	public void removeInternalListener(Listenable i){
+	public static void removeInternalListener(Listenable i){
 		for(Listenable i_:allInternalListeners){
 			if(i_.equals(i)){
 				allInternalListeners.remove(i_);

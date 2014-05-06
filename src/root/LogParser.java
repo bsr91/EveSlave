@@ -9,10 +9,8 @@ public class LogParser{
 
 	private boolean stop;
 	private Settings settings;
-	private EventManager em;
-	public LogParser(Settings settings, EventManager em){
+	public LogParser(Settings settings){
 		this.settings=settings;
-		this.em=em;
 		stop=false;
 		
 	}
@@ -52,7 +50,7 @@ public class LogParser{
 							//filters other peoples messages and ensures message is bot command
 							//then tells EventManager to fire an event
 							if(isValidPrefix(pre)&&msg.startsWith("!")){
-								em.fireChatEvent(msg);
+								EventManager.fireChatEvent(msg);
 							}
 						}
 					}

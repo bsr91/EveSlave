@@ -8,7 +8,6 @@ public class Root implements Listenable{
 	private FileManager fileManager;
 	private LogParser logParser;
 	private Settings settings;
-	private EventManager em;
 	public static void main(String[] args){
 		new Root();
 	}
@@ -17,23 +16,23 @@ public class Root implements Listenable{
 		fileManager=new FileManager();
 		settings=fileManager.getSettings();
 		
-		em=new EventManager();
-		em.addInternalListener(this);
+		EventManager.acceptListeners();
+		EventManager.addInternalListener(this);
 		
 		
 		
 		//test listener
-		em.addChatListener(new TestListener(new String[]{"!say"}));
+		EventManager.addChatListener(new TestListener(new String[]{"!say"}));
 		//settings modification listener
-		em.addChatListener(new SettingsListener(new String[]{"!addUser","!delUser","!setChannel"},fileManager));
+		EventManager.addChatListener(new SettingsListener(new String[]{"!addUser","!delUser","!setChannel"},fileManager));
 		
-		logParser=new LogParser(settings, em);
+		logParser=new LogParser(settings);
 		
 		//start read
 		logParser.parse(fileManager.getNewLogFile(settings.getFileName()));
 	}
 	@Override
-	public void respond(String msg, String cmd, EventManager em) {/*not used here*/}
+	public void respond(String msg, String cmd) {/*not used here*/}
 	@Override
 	public void respond(InternalEvent x) {
 		if(x.getType()==InternalEvent.RELOAD_LOG_FILE){
