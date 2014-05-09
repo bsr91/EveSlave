@@ -20,7 +20,7 @@ public class EventManager {
 	/*
 	 * fires respond() in the listeners registered for the command from chat
 	 */
-	public static void fireChatEvent(String msg){
+	public void fireChatEvent(String msg){
 		String cmd;
 		try{
 			cmd=msg.split(" ")[0];
@@ -43,8 +43,9 @@ public class EventManager {
 	/*
 	 * fires respond() in internal listeners
 	 */
-	public static void fireInternalEvent(InternalEvent x){
+	public void fireInternalEvent(int type){
 		for(Listenable i:allInternalListeners){
+			InternalEvent x=new InternalEvent(type);
 			i.respond(x);
 		}
 	}

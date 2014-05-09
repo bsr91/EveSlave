@@ -5,9 +5,9 @@ import root.FileManager;
 
 public class SettingsListener extends ChatListener {
 	private FileManager fm;
-	public SettingsListener(String[] cmd, FileManager fm){
+	public SettingsListener(String[] cmd){
 		super(cmd);
-		this.fm=fm;
+		fm=new FileManager();
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class SettingsListener extends ChatListener {
 		if(cmd.equalsIgnoreCase("!delUser")){
 			for(String user:fm.getSettings().getUserArray()){
 				if(user.equals(msg)){
-					fm.getSettings().getUserArray().remove(user);
+					fm.getSettings().removeUser(user);
 					fm.saveSettings();
 					return;
 				}
@@ -33,7 +33,8 @@ public class SettingsListener extends ChatListener {
 		if(cmd.equalsIgnoreCase("!setChannel")){
 			fm.getSettings().setChannelname(msg);
 			fm.saveSettings();
-			EventManager.fireInternalEvent(new InternalEvent(InternalEvent.RELOAD_LOG_FILE));
+			EventManager em=new EventManager();
+			em.fireInternalEvent(InternalEvent.RELOAD_LOG_FILE);
 			return;
 		}
 

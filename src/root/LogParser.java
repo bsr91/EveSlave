@@ -9,8 +9,10 @@ public class LogParser{
 
 	private boolean stop;
 	private Settings settings;
-	public LogParser(Settings settings){
-		this.settings=settings;
+	private FileManager fm;
+	public LogParser(){
+		fm=new FileManager();
+		settings=fm.getSettings();
 		stop=false;
 		
 	}
@@ -18,7 +20,8 @@ public class LogParser{
 	/*
 	 * parses log file and sends lines to event manager
 	 */
-	public void parse(File log){
+	public void parse(){
+		File log=fm.getNewLogFile();
 		if(log==null){
 			System.out.println("Log file not found");
 			
@@ -50,7 +53,8 @@ public class LogParser{
 							//filters other peoples messages and ensures message is bot command
 							//then tells EventManager to fire an event
 							if(isValidPrefix(pre)&&msg.startsWith("!")){
-								EventManager.fireChatEvent(msg);
+								EventManager em=new EventManager();
+								em.fireChatEvent(msg);
 							}
 						}
 					}
